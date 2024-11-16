@@ -1,22 +1,19 @@
 import Image from "next/image";
 import SearchForm from "../../components/SearchForm";
-import StartupCard from "@/components/StartupCard";
+import StartupCard, { StartupCardType } from "@/components/StartupCard";
+import { client } from "@/sanity/lib/client";
+import { STARTUPS_QUERY } from "@/sanity/lib/queries";
+import { sanityFetch, SanityLive } from "@/sanity/lib/live";
+
 
 export default async function Home({ searchParams }: {
   searchParams: Promise<{ query?: string }>
 }) {
   const query = (await searchParams).query;
-  
-  const posts =[{
-    _createdAt: new Date(),
-    views: 55,
-    author: { _id: 1, name: 'John' },
-    _id: 1,
-    description: 'This is a description',
-    image: "https://images.pexels.com/photos/9589211/pexels-photo-9589211.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    category: "Random",
-    title: "Hungarian Parliament Building in Budapest"
-  }]
+  const params = { search: query || null };
+
+  const { data: posts } = await sanityFetch({ query: STARTUPS_QUERY, params });
+
 
   return (
     <>
@@ -45,6 +42,8 @@ export default async function Home({ searchParams }: {
           )}
         </ul>
       </section>
+
+      <SanityLive />
     </>
   );
 }
