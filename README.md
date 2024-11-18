@@ -1,1 +1,1 @@
-## YCombinator clone website made with Next.js 15, React 19, Sanity, Senry, Tailwind CSS, Typescript, Shadcn and more
+## Y Combinator clone website made with Next.js 15, React 19, Sanity, Senry, Tailwind CSS, Typescript, Shadcn and more
