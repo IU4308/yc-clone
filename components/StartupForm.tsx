@@ -14,7 +14,12 @@ import { createPitch } from "@/lib/actions"
 
 const StartupForm = () => {
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [title, setTitle] = useState("")
+  const [description, setDescription] = useState("")
+  const [category, setCategory] = useState("")
+  const [link, setLink] = useState("")
   const [pitch, setPitch] = useState("")
+
   const { toast } = useToast()
   const router = useRouter()
 
@@ -30,6 +35,7 @@ const StartupForm = () => {
             pitch,
         };
 
+        
         await formSchema.parseAsync(formValues);
 
         // console.log(formValues);
@@ -54,6 +60,20 @@ const StartupForm = () => {
 
             setErrors(fieldErrors as unknown as Record<string, string>);
 
+            Object.assign(state, { 
+              title: formData.get('title') as string,
+              description: formData.get('description') as string,
+              category: formData.get('category') as string,
+              link: formData.get('link') as string,
+            })
+
+            // console.log(state)
+
+            setTitle(state.title)
+            setDescription(state.description)
+            setCategory(state.category)
+            setLink(state.link)
+
             toast({
                 title: 'Error',
                 description: "Please check your inputs and try again",
@@ -69,6 +89,7 @@ const StartupForm = () => {
             variant: "destructive",
         })
 
+
         return {
             ...prevState,
             error: 'An unexpected error has occured',
@@ -80,17 +101,22 @@ const StartupForm = () => {
   const [state, formAction, isPending] = useActionState(handleFormSubmit, {
     error: "",
     status: "INITIAL"
-  }, );
+  }, 
+  );
 
+  // {console.log(state)}
  
   return (
     <form action={formAction} className='startup-form'>
+      
       <div>
         <label htmlFor="title" className="startup-form_label">Title</label>
         <Input 
             id="title"
             name="title" 
             className="startup-form_input"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             required
             placeholder="Startup Title"    
         />
@@ -106,6 +132,8 @@ const StartupForm = () => {
             id="description"
             name="description" 
             className="startup-form_textarea"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             required
             placeholder="Startup Description"    
         />
@@ -119,6 +147,8 @@ const StartupForm = () => {
             id="category"
             name="category" 
             className="startup-form_input"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
             required
             placeholder="Startup Category (Teach, Health...)"    
         />
@@ -132,6 +162,8 @@ const StartupForm = () => {
             id="link"
             name="link" 
             className="startup-form_input"
+            value={link}
+            onChange={(e) => setLink(e.target.value)}
             required
             placeholder="Startup Image URL"    
         />
@@ -161,7 +193,7 @@ const StartupForm = () => {
 
         <Button 
             type="submit" 
-            className="startup-form_btn text-white"
+            className="startup-form_btn text-white mt-8"
             disabled={isPending}    
         >
             {isPending ? "Submitting..." : "Submit Your Pitch"}

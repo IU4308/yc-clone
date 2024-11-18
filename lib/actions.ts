@@ -18,13 +18,18 @@ export const createPitch = async (
         status: 'ERROR',
     });
 
+    try {
+
     const { title, description, category, link } = Object.fromEntries(
         Array.from(form).filter(([key]) => key !== 'pitch')
     );
 
+    Object.assign(state, { title, description, category, link })
+
+
     const slug = slugify(title as string, { lower: true, strict: true})
 
-    try {
+    
         const startup = {
             title, 
             description,
@@ -50,6 +55,8 @@ export const createPitch = async (
         })
     } catch (error) {
         console.log(error);
+
+        console.log(state)
 
         return parseServerActionResponse({ 
             error: JSON.stringify(error), 
