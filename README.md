@@ -15,6 +15,10 @@
 
 <h3 align="center">Startup Directory Platform</h3>
 
+<a href="https://youtu.be/Zq5fmkH0T78?feature=shared" target="_blank">
+      Built with the tutorial from JavaScript Mastery
+</a>
+
 </div>
 
 ## <a name="tech-stack">⚙️ Tech Stack</a>
